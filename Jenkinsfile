@@ -10,22 +10,22 @@ pipeline {
 
         stage('Set up virtualenv') {
             steps {
-                sh 'python -m venv venv'
-                sh './venv/bin/pip install --upgrade pip'
-                sh './venv/bin/pip install -r requirements.txt || true'
+                bat 'python -m venv venv'
+                bat '.\\venv\\Scripts\\pip install --upgrade pip'
+                bat '.\\venv\\Scripts\\pip install -r requirements.txt || exit /b 0'
             }
         }
 
         stage('Run Script') {
             steps {
-                sh './venv/bin/python main.py'
+                bat '.\\venv\\Scripts\\python main.py'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh './venv/bin/pip install pytest'
-                sh './venv/bin/pytest --junitxml=results.xml || true'
+                bat '.\\venv\\Scripts\\pip install pytest'
+                bat '.\\venv\\Scripts\\pytest --junitxml=results.xml || exit /b 0'
             }
         }
     }
